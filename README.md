@@ -57,7 +57,7 @@ public class ExampleManager extends JsonResourceManager<Example> {
 		return "./";
 	}
 }
-TestManager manager = new TestManager().load();
+ExampleManager manager = new ExampleManager().load();
 List<Example> examples = manager.getResources();
 ```
 
