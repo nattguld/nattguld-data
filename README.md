@@ -45,7 +45,7 @@ Example ex = new Example(reader);
 
 #### Json Resource Manager (Json)
 ```java
-public class TestManager extends JsonResourceManager<Example> {
+public class ExampleManager extends JsonResourceManager<Example> {
 	
 	@Override
 	protected Test instantiateResource(JsonReader reader) {
@@ -56,13 +56,9 @@ public class TestManager extends JsonResourceManager<Example> {
 	protected String getStorageDirPath() {
 		return "./";
 	}
-	
-	@Override
-	public List<Example> getResources() {
-		return super.getResources();
-	}
 }
-new TestManager().load();
+TestManager manager = new TestManager().load();
+List<Example> examples = manager.getResources();
 ```
 
 ### Caching
