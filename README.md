@@ -29,7 +29,7 @@ public class Example extends JsonResource {
     return "./myresource.json";
   }
 }
-JsonReader reader = ResourceIO.loadJsonResource(MySaveFile);
+JsonReader reader = ResourceIO.loadJsonResource(File saveFile);
 Example ex = new Example(reader);
 ```
 
