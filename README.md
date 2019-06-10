@@ -8,7 +8,17 @@ This repo uses gson as dependency for handling JSON data.
 https://github.com/google/gson
 
 ## Examples
-### Resource (Json)
+### Resources
+Below examples are for JSON data handling. Binary uses the same structures.
+```java
+BinaryResource
+BinaryResourceManager
+BinaryReader
+BinaryWriter
+```
+Binary is however less advanced in saving objects.
+
+#### Json Resource
 ```java
 public class Example extends JsonResource {
 
@@ -33,7 +43,7 @@ JsonReader reader = ResourceIO.loadJsonResource(File saveFile);
 Example ex = new Example(reader);
 ```
 
-### Resource Manager (Json)
+#### Json Resource Manager (Json)
 ```java
 public class TestManager extends JsonResourceManager<Example> {
 	
