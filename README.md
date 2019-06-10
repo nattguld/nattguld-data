@@ -14,21 +14,20 @@ public class Example extends JsonResource {
 
   private int someInt;
 
-	public Example(JsonReader reader) {
-		super(reader);
-    
+  public Example(JsonReader reader) {
+    super(reader);
     this.someInt = getReader().getAsInt("some_int");
-	}
+  }
 
-	@Override
-	public void write(JsonWriter writer) {
-		writer.write("some_int", someInt);
-	}
+  @Override
+  public void write(JsonWriter writer) {
+    writer.write("some_int", someInt);
+  }
 
-	@Override
-	public String getSavePath() {
-		return "./myresource.json";
-	}
+  @Override
+  public String getSavePath() {
+    return "./myresource.json";
+  }
 }
 JsonReader reader = ResourceIO.loadJsonResource(MySaveFile);
 Example ex = new Example(reader);
