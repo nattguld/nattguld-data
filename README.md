@@ -10,7 +10,7 @@ https://github.com/google/gson
 ## Examples
 ### Resource (Json)
 ```java
-public class Example extends JsonResource() {
+public class Example extends JsonResource {
 
   private int someInt;
 
