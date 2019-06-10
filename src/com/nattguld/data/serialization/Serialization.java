@@ -26,10 +26,10 @@ public class Serialization {
      * 
      * @param o The object to serialize.
      * 
-     * @param path The storage path.
+     * @param savePath The save path.
      */
-    public static void serialize(Object o, String path) {
-    	try (OutputStream file = new FileOutputStream(path);
+    public static void serialize(Object o, String savePath) {
+    	try (OutputStream file = new FileOutputStream(savePath);
     			OutputStream buffer = new BufferedOutputStream(file);
     			ObjectOutput output = new ObjectOutputStream(buffer);
     			) {
@@ -43,15 +43,14 @@ public class Serialization {
     /**
      * Deserializes an object.
      * 
-     * @param path The stored object.
+     * @param savePath The save path.
      */
-    public static Object deserialize(String path) {
-    	try (InputStream file = new FileInputStream(path);
+    public static Object deserialize(String savePath) {
+    	try (InputStream file = new FileInputStream(savePath);
     			InputStream buffer = new BufferedInputStream(file);
     			ObjectInput input = new ObjectInputStream (buffer);
     			){
-    		Object o = input.readObject();
-    		return o;
+    		return input.readObject();
     		
     	} catch (ClassNotFoundException | IOException ex) {
     		ex.printStackTrace();

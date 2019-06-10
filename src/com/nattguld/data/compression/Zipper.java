@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -17,6 +18,46 @@ import java.util.zip.ZipOutputStream;
 
 public class Zipper {
 	
+	
+	/**
+	 * Unzips a zip file.
+	 * 
+	 * @param zipFile The zip file.
+	 * 
+	 * @param outputDir The output directory.
+	 */
+    public void unzip(File zipFile, File outputDir) {
+        byte[] buffer = new byte[1024];
+       	
+        try {
+        	if (!outputDir.exists()) {
+        		outputDir.mkdir();
+        	}
+        	ZipInputStream zis =  new ZipInputStream(new FileInputStream(zipFile));
+        	ZipEntry ze = zis.getNextEntry();
+       		
+        	while (Objects.nonNull(ze)) {
+        		String fileName = ze.getName();
+        		File newFile = new File(outputDir.getAbsolutePath() + File.separator + fileName);
+        		
+        		new File(newFile.getParent()).mkdirs();
+                 
+        		try (FileOutputStream fos = new FileOutputStream(newFile)) {          
+        			int len;
+        		
+        			while ((len = zis.read(buffer)) > 0) {
+        				fos.write(buffer, 0, len);
+        			}
+        		}  
+        		ze = zis.getNextEntry();
+        	}
+        	zis.closeEntry();
+        	zis.close();
+       		
+        } catch(IOException ex) {
+        	ex.printStackTrace(); 
+        }
+    } 
 	
 	/**
 	 * Creates a zip file.

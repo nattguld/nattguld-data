@@ -23,10 +23,19 @@ public class FileCache {
 	/**
 	 * Creates a new file cache.
 	 * 
+	 * @param cacheDirPath The cache directory path.
+	 */
+	public FileCache(String cacheDirPath) {
+		this(new File(cacheDirPath));
+	}
+	
+	/**
+	 * Creates a new file cache.
+	 * 
 	 * @param cacheDir The cache directory.
 	 */
-	public FileCache(String cacheDir) {
-		this.cacheDir = new File(cacheDir);
+	public FileCache(File cacheDir) {
+		this.cacheDir = cacheDir;
 	}
 	
 	/**

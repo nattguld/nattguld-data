@@ -2,7 +2,7 @@ package com.nattguld.data.json;
 
 import java.io.FileWriter;
 
-import com.nattguld.data.IResource;
+import com.nattguld.data.Resource;
 
 /**
  * 
@@ -10,8 +10,17 @@ import com.nattguld.data.IResource;
  *
  */
 
-public abstract class JsonResource implements IResource<JsonReader, JsonWriter> {
+public abstract class JsonResource extends Resource<JsonReader, JsonWriter> {
 
+
+	/**
+	 * Creates a new json resource.
+	 * 
+	 * @param reader The resource reader.
+	 */
+	public JsonResource(JsonReader reader) {
+		super(reader);
+	}
 
 	@Override
 	public void save() {

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  *
  */
 
-public abstract class ResourceManager<R extends IResource<I, O>, I extends IResourceReader, O extends IResourceWriter> {
+public abstract class ResourceManager<R extends Resource<I, O>, I extends IResourceReader, O extends IResourceWriter> {
 
 	/**
 	 * Holds the loaded resources.

@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.nattguld.data.IResource;
+import com.nattguld.data.Resource;
 
 /**
  * 
@@ -14,8 +14,17 @@ import com.nattguld.data.IResource;
  *
  */
 
-public abstract class BinaryResource implements IResource<BinaryReader, BinaryWriter> {
+public abstract class BinaryResource extends Resource<BinaryReader, BinaryWriter> {
 
+	
+	/**
+	 * Creates a new binary resource.
+	 * 
+	 * @param reader The resource reader.
+	 */
+	public BinaryResource(BinaryReader reader) {
+		super(reader);
+	}
 	
 	@Override
 	public void save() {

@@ -3,7 +3,6 @@ package com.nattguld.data.binary;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import com.nattguld.data.IResourceWriter;
 
@@ -128,9 +127,9 @@ public class BinaryWriter implements IResourceWriter {
 	 * 
 	 * @param br The object to write.
 	 */
-	public void writeObject(BinaryResource br) {
+	/*public void writeObject(BinaryResource br) {
 		br.write(this);
-	}
+	}*/
 	
 	/**
 	 * Writes a list.
@@ -139,7 +138,7 @@ public class BinaryWriter implements IResourceWriter {
 	 * 
 	 * @throws Exception 
 	 */
-	public void writeList(List<?> list) throws Exception {
+	/*public void writeList(List<?> list) throws Exception {
 		out.writeInt(list.size());
 		
 		for (Object o : list) {
@@ -174,10 +173,6 @@ public class BinaryWriter implements IResourceWriter {
 				throw new Exception("Use write(object)");
 			}
 		}
-	}
-	
-	public void write(Object o) {
-		
-	}
+	}*/
 
 }
