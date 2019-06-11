@@ -15,6 +15,13 @@ public abstract class JsonResource extends Resource<JsonReader, JsonWriter> {
 
 	/**
 	 * Creates a new json resource.
+	 */
+	public JsonResource() {
+		super(null);
+	}
+	
+	/**
+	 * Creates a new json resource.
 	 * 
 	 * @param reader The resource reader.
 	 */

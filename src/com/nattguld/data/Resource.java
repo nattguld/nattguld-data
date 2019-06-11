@@ -16,6 +16,13 @@ public abstract class Resource<I extends IResourceReader, O extends IResourceWri
 	
 	/**
 	 * Creates a new resource.
+	 */
+	public Resource() {
+		this(null);
+	}
+	
+	/**
+	 * Creates a new resource.
 	 * 
 	 * @param reader The resource reader.
 	 */

@@ -19,6 +19,13 @@ public abstract class BinaryResource extends Resource<BinaryReader, BinaryWriter
 	
 	/**
 	 * Creates a new binary resource.
+	 */
+	public BinaryResource() {
+		super(null);
+	}
+	
+	/**
+	 * Creates a new binary resource.
 	 * 
 	 * @param reader The resource reader.
 	 */
