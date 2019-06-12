@@ -1,5 +1,9 @@
 package com.nattguld.data;
 
+import java.io.File;
+
+import com.nattguld.data.cfg.Config;
+
 /**
  * 
  * @author randqm
@@ -43,11 +47,27 @@ public abstract class Resource<I extends IResourceReader, O extends IResourceWri
 	public abstract void save();
 	
 	/**
-	 * Retrieves the save path.
+	 * Retrieves the save file name.
 	 * 
-	 * @return The save path.
+	 * @return The save file name.
 	 */
-	public abstract String getSavePath();
+	protected abstract String getSaveFileName();
+	
+	/**
+	 * Retrieves the save directory path.
+	 * 
+	 * @return The save directory path.
+	 */
+	protected abstract String getSaveDirPath();
+	
+	/**
+	 * Retrieves the path to the save directory.
+	 * 
+	 * @return The save directory path.
+	 */
+	public String getSavePath() {
+		return Config.getBaseDirPath() + File.separator + getSaveDirPath() + File.separator + getSaveFileName();
+	}
 	
 	/**
 	 * Retrieves the resource reader.

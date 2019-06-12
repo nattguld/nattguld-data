@@ -1,5 +1,6 @@
 package com.nattguld.data.json;
 
+import java.io.File;
 import java.io.FileWriter;
 
 import com.nattguld.data.Resource;
@@ -31,6 +32,11 @@ public abstract class JsonResource extends Resource<JsonReader, JsonWriter> {
 
 	@Override
 	public void save() {
+		File saveDir = new File(getSaveDirPath());
+		
+		if (!saveDir.exists()) {
+			saveDir.mkdirs();
+		}
 		JsonWriter writer = new JsonWriter();
 		
 		try {

@@ -35,6 +35,11 @@ public abstract class BinaryResource extends Resource<BinaryReader, BinaryWriter
 	
 	@Override
 	public void save() {
+		File saveDir = new File(getSaveDirPath());
+		
+		if (!saveDir.exists()) {
+			saveDir.mkdirs();
+		}
 		File f = new File(getSavePath());
 		
 		if (!f.exists()) {

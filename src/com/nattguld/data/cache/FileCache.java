@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
+import com.nattguld.data.cfg.Config;
+
 /**
  * 
  * @author randqm
@@ -15,27 +17,20 @@ import java.util.Objects;
 public class FileCache {
 	
 	/**
-	 * The cache directory.
+	 * The save directory for the cache files.
 	 */
-	private final File cacheDir;
+	private final File saveDir;
 	
 	
 	/**
 	 * Creates a new file cache.
 	 * 
-	 * @param cacheDirPath The cache directory path.
+	 * @param saveDirPath The cache files save directory path.
 	 */
-	public FileCache(String cacheDirPath) {
-		this(new File(cacheDirPath));
-	}
-	
-	/**
-	 * Creates a new file cache.
-	 * 
-	 * @param cacheDir The cache directory.
-	 */
-	public FileCache(File cacheDir) {
-		this.cacheDir = cacheDir;
+	public FileCache(String saveDirPath) {
+		this.saveDir = new File(getCacheBaseDirPath() + File.separator + saveDirPath);
+		
+		getSaveDir().mkdirs();
 	}
 	
 	/**
@@ -47,8 +42,6 @@ public class FileCache {
 		if (Objects.isNull(f) || !f.exists()) {
 			return;
 		}
-		init();
-		
 		for (File o : getFiles()) {
 			if (o.getName().equals(f.getName())) {
 				o.delete();
@@ -66,7 +59,7 @@ public class FileCache {
 	private File add(File f) {
 		remove(f);
 
-		File cached = new File(getCacheDir().getAbsolutePath() + "/" + f.getName());
+		File cached = new File(getSaveDir().getAbsolutePath() + File.separator + f.getName());
 		
 		try {
 			Files.copy(f.toPath(), cached.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -84,7 +77,7 @@ public class FileCache {
 	 * @return The cached file.
 	 */
 	public File getCached(String fileName) {
-		return getCached(new File(getCacheDir().getAbsolutePath() + "/" + fileName));
+		return getCached(new File(getSaveDir().getAbsolutePath() + File.separator + fileName));
 	}
 	
 	/**
@@ -98,8 +91,6 @@ public class FileCache {
 		if (Objects.isNull(f) || !f.exists()) {
 			return null;
 		}
-		init();
-		
 		for (File o : getFiles()) {
 			if (o.getName().equals(f.getName())) {
 				return o;
@@ -112,10 +103,8 @@ public class FileCache {
 	 * Clears the cache.
 	 */
 	public void clear() {
-		if (getCacheDir().exists()) {
-			for (File f : getFiles()) {
-				f.delete();
-			}
+		for (File f : getFiles()) {
+			f.delete();
 		}
 	}
 	
@@ -125,27 +114,25 @@ public class FileCache {
 	 * @return The files.
 	 */
 	public File[] getFiles() {
-		return getCacheDir().listFiles();
+		return getSaveDir().listFiles();
 	}
 	
 	/**
-	 * Initializes the cache.
-	 */
-	private void init() {
-		if (!cacheDir.exists()) {
-			cacheDir.mkdirs();
-		}
-	}
-	
-	/**
-	 * Retrieves the cache directory.
+	 * Retrieves the save directory.
 	 * 
-	 * @return The directory.
+	 * @return The save directory.
 	 */
-	public File getCacheDir() {
-		init();
-		
-		return cacheDir;
+	protected File getSaveDir() {
+		return saveDir;
+	}
+	
+	/**
+	 * Retrieves the cache base dir path.
+	 * 
+	 * @return The cache base dir path.
+	 */
+	protected String getCacheBaseDirPath() {
+		return Config.getBaseDirPath() + File.separator + "cache";
 	}
 
 }

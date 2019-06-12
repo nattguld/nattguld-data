@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import com.nattguld.data.cfg.Config;
+
 /**
  * 
  * @author randqm
@@ -12,11 +14,6 @@ import java.nio.file.StandardCopyOption;
  */
 
 public class Workspace implements AutoCloseable {
-	
-	/**
-	 * The default base directory.
-	 */
-	private static String defaultBaseDir = "./workspace/";
 	
 	/**
 	 * The work directory.
@@ -29,7 +26,7 @@ public class Workspace implements AutoCloseable {
 	 * @param dir The directory.
 	 */
 	public Workspace() {
-		this(defaultBaseDir);
+		this("");
 	}
 	
 	/**
@@ -38,7 +35,8 @@ public class Workspace implements AutoCloseable {
 	 * @param dir The directory.
 	 */
 	public Workspace(String dir) {
-		this.dir = new File(dir + "/" + hashCode());
+		this.dir = new File(Config.getBaseDirPath() + File.separator + dir + File.separator + hashCode());
+		
 		getWorkDir().mkdirs();
 	}
 	
@@ -61,7 +59,7 @@ public class Workspace implements AutoCloseable {
 	 * @return The file in the workspace.
 	 */
 	public File addToWorkspace(File f) {
-		File copy = new File(getWorkPath() + "/" + f.getName());
+		File copy = new File(getWorkPath() + File.separator + f.getName());
 		
 		try {
 			Files.copy(f.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -96,15 +94,6 @@ public class Workspace implements AutoCloseable {
 			f.delete();
 		}
 		getWorkDir().delete();
-	}
-	
-	/**
-	 * Modifies the base directory.
-	 * 
-	 * @param baseDirPath The new base directory path.
-	 */
-	public static void setBaseDirectory(String baseDirPath) {
-		defaultBaseDir = baseDirPath;
 	}
 	
 	@Override

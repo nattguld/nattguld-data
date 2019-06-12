@@ -98,7 +98,7 @@ public class Zipper {
 	    String zipEntryName = fileToZip.getName();
 	    
 	    if (Objects.nonNull(parrentDirectoryName) && !parrentDirectoryName.isEmpty()) {
-	        zipEntryName = parrentDirectoryName + "/" + fileToZip.getName();
+	        zipEntryName = parrentDirectoryName + File.separator + fileToZip.getName();
 	    }
 	    if (fileToZip.isDirectory()) {
 	        for (File file : fileToZip.listFiles()) {

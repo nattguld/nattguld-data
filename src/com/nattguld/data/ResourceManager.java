@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 
+import com.nattguld.data.cfg.Config;
+
 /**
  * 
  * @author randqm
@@ -101,7 +103,7 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	 * @return The resource manager.
 	 */
 	public ResourceManager<R, I, O> load() {
-		File dir = new File(getStorageDirPath());
+		File dir = new File(Config.getBaseDirPath() + getStorageDirName());
 		
 		if (!dir.exists()) {
 			dir.mkdirs();
@@ -165,11 +167,11 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	}
 	
 	/**
-	 * Retrieves the storage directory path.
+	 * Retrieves the storage directory name.
 	 * 
-	 * @return The storage directory path.
+	 * @return The storage directory name.
 	 */
-	protected abstract String getStorageDirPath();
+	protected abstract String getStorageDirName();
 	
 	/**
 	 * Retrieves whether the resource manager is empty or not.

@@ -1,5 +1,7 @@
 package com.nattguld.data.cfg;
 
+import java.io.File;
+
 import com.nattguld.data.json.JsonReader;
 import com.nattguld.data.json.JsonResource;
 
@@ -12,9 +14,9 @@ import com.nattguld.data.json.JsonResource;
 public abstract class Config extends JsonResource {
 	
 	/**
-	 * The base path where configurations should be saved.
+	 * The base directory path where data should be saved.
 	 */
-	private static transient String basePath = "./";
+	private static String baseDirPath = "./";
 
 	
 	/**
@@ -30,11 +32,10 @@ public abstract class Config extends JsonResource {
 	 * @return The name.
 	 */
 	protected abstract String getSaveFileName();
-
 	
 	@Override
-	public String getSavePath() {
-		return basePath + getSaveFileName();
+	protected String getSaveDirPath() {
+		return "";
 	}
 	
 	/**
@@ -43,16 +44,18 @@ public abstract class Config extends JsonResource {
 	 * @param dirPath The path to the directory.
 	 */
 	public static void setBasePath(String dirPath) {
-		basePath = dirPath;
+		baseDirPath = dirPath;
+		
+		new File(baseDirPath).mkdirs();
 	}
 	
 	/**
-	 * Retrieves the base path.
+	 * Retrieves the base directory path.
 	 * 
-	 * @return The base path.
+	 * @return The base directory path.
 	 */
-	public static String getBasePath() {
-		return basePath;
+	public static String getBaseDirPath() {
+		return baseDirPath;
 	}
 
 }
