@@ -30,6 +30,7 @@ public abstract class Config extends JsonResource {
 	 * @return The name.
 	 */
 	protected abstract String getSaveFileName();
+
 	
 	@Override
 	public String getSavePath() {
@@ -43,6 +44,15 @@ public abstract class Config extends JsonResource {
 	 */
 	public static void setBasePath(String dirPath) {
 		basePath = dirPath;
+	}
+	
+	/**
+	 * Retrieves the base path.
+	 * 
+	 * @return The base path.
+	 */
+	public static String getBasePath() {
+		return basePath;
 	}
 
 }
