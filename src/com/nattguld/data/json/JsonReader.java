@@ -2,6 +2,8 @@ package com.nattguld.data.json;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -249,7 +251,7 @@ public class JsonReader implements IResourceReader {
     }
     
     /**
-     * Retrieves a list value.
+     * Retrieves a list.
      * 
      * @param key The key.
      * 
@@ -260,16 +262,46 @@ public class JsonReader implements IResourceReader {
      * @return The list.
      */
     public <T> List<T> getAsList(String key, Type elementType, List<T> list) {
+    	return (List<T>)getAsCollection(key, elementType, list);
+    }
+    
+    /**
+     * Retrieves a deque.
+
+     * @param key The key.
+     * 
+     * @param elementType The element type.
+     * 
+     * @param deque The default deque.
+     * 
+     * @return The deque.
+     */
+    public <T> Deque<T> getAsDeque(String key, Type elementType, Deque<T> deque) {
+    	return (Deque<T>)getAsCollection(key, elementType, deque);
+    }
+    
+    /**
+     * Retrieves a collection.
+
+     * @param key The key.
+     * 
+     * @param elementType The element type.
+     * 
+     * @param collection The default collection.
+     * 
+     * @return The collection.
+     */
+    public <T> Collection<T> getAsCollection(String key, Type elementType, Collection<T> collection) {
     	if (!has(key)) {
-    		return list;
+    		return collection;
     	}
     	@SuppressWarnings("unchecked")
-		List<T> listFromJson = (List<T>)getGson().fromJson(getObject().get(key).getAsJsonArray(), elementType);
+    	Collection<T> collectionFromJson = (Collection<T>)getGson().fromJson(getObject().get(key).getAsJsonArray(), elementType);
     	
-    	if (Objects.nonNull(listFromJson) && !listFromJson.isEmpty()) {
-    		list.addAll(listFromJson);
+    	if (Objects.nonNull(collectionFromJson) && !collectionFromJson.isEmpty()) {
+    		collection.addAll(collectionFromJson);
     	}
-    	return list;
+    	return collection;
     }
     
     /**
