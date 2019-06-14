@@ -40,22 +40,6 @@ public class ConfigManager {
 	}
 	
 	/**
-	 * Retrieves a config for it's save file name.
-	 * 
-	 * @param saveFileName The save file name.
-	 * 
-	 * @return The config.
-	 */
-	private static Config getConfigForSaveFileName(String saveFileName) {
-		for (Config cfg : configs) {
-			if (cfg.getSaveFileName().equals(saveFileName)) {
-				return cfg;
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * Loads & retrieves a config or reverts to the default config when unable to load the config.
 	 * 
 	 * @param defaultConfig The default config.
@@ -75,6 +59,22 @@ public class ConfigManager {
 		}
 		config.read(reader);
 		configs.add(config);
+	}
+	
+	/**
+	 * Retrieves a config for it's save file name.
+	 * 
+	 * @param saveFileName The save file name.
+	 * 
+	 * @return The config.
+	 */
+	private static Config getConfigForSaveFileName(String saveFileName) {
+		for (Config cfg : configs) {
+			if (cfg.getSaveFileName().equals(saveFileName)) {
+				return cfg;
+			}
+		}
+		return null;
 	}
 
 }
