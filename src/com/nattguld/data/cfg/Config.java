@@ -34,7 +34,7 @@ public abstract class Config extends JsonResource {
 	protected abstract String getSaveFileName();
 	
 	@Override
-	protected String getSaveDirPath() {
+	protected String getSaveDirName() {
 		return "";
 	}
 	
@@ -45,6 +45,8 @@ public abstract class Config extends JsonResource {
 	 */
 	public static void setBasePath(String dirPath) {
 		baseDirPath = dirPath;
+		
+		System.out.println("set base dir: " + dirPath);
 		
 		new File(baseDirPath).mkdirs();
 	}

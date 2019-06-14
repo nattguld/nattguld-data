@@ -33,7 +33,7 @@ public abstract class JsonResource extends Resource<JsonReader, JsonWriter> {
 	@Override
 	public void save() {
 		File saveDir = new File(getSaveDirPath());
-		
+
 		if (!saveDir.exists()) {
 			saveDir.mkdirs();
 		}

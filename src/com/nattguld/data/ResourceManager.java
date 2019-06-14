@@ -103,7 +103,7 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	 * @return The resource manager.
 	 */
 	public ResourceManager<R, I, O> load() {
-		File dir = new File(Config.getBaseDirPath() + getStorageDirName());
+		File dir = new File(Config.getBaseDirPath() + File.separator + getStorageDirName() + File.separator);
 		
 		if (!dir.exists()) {
 			dir.mkdirs();
@@ -123,7 +123,7 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 				if (Objects.isNull(resource)) {
 					continue;
 				}
-				resources.add(resource);
+				addRaw(resource);
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();

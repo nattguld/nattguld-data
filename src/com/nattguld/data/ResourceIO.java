@@ -44,6 +44,7 @@ public class ResourceIO {
     			jsonObject = (JsonObject) parser.parse(fileReader);
     		}
     		if (Objects.isNull(jsonObject)) {
+    			System.err.println("Failed to parse json resource: " + saveFile.getAbsolutePath());
     			return null;
     		}
     		return new JsonReader(gson, jsonObject, saveFile);

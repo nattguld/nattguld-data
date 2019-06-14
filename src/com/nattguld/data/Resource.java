@@ -54,11 +54,20 @@ public abstract class Resource<I extends IResourceReader, O extends IResourceWri
 	protected abstract String getSaveFileName();
 	
 	/**
+	 * Retrieves the save directory name.
+	 * 
+	 * @return The save directory name.
+	 */
+	protected abstract String getSaveDirName();
+	
+	/**
 	 * Retrieves the save directory path.
 	 * 
 	 * @return The save directory path.
 	 */
-	protected abstract String getSaveDirPath();
+	public String getSaveDirPath() {
+		return Config.getBaseDirPath() + File.separator + getSaveDirName() + File.separator;
+	}
 	
 	/**
 	 * Retrieves the path to the save directory.
@@ -66,7 +75,7 @@ public abstract class Resource<I extends IResourceReader, O extends IResourceWri
 	 * @return The save directory path.
 	 */
 	public String getSavePath() {
-		return Config.getBaseDirPath() + File.separator + getSaveDirPath() + File.separator + getSaveFileName();
+		return getSaveDirPath() + getSaveFileName();
 	}
 	
 	/**
