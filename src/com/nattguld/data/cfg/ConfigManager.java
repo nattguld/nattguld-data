@@ -57,7 +57,7 @@ public class ConfigManager {
 		if (Objects.isNull(reader)) {
 			return;
 		}
-		config.read(reader);
+		config.setReader(reader).read(reader);
 		configs.add(config);
 	}
 	

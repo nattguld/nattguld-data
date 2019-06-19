@@ -17,6 +17,11 @@ public abstract class Config extends JsonResource {
 	 * The base directory path where data should be saved.
 	 */
 	private static String baseDirPath = "./";
+	
+	/**
+	 * The json reader.
+	 */
+	private JsonReader reader;
 
 	
 	/**
@@ -32,6 +37,25 @@ public abstract class Config extends JsonResource {
 	 * @return The name.
 	 */
 	protected abstract String getSaveFileName();
+	
+	/**
+	 * Modifies the reader.
+	 * 
+	 * @param reader The new reader.
+	 * 
+	 * @return The config.
+	 */
+	public Config setReader(JsonReader reader) {
+		this.reader = reader;
+		return this;
+	}
+	
+	/**
+	 * Retrieves the reader.
+	 */
+	protected JsonReader getReader() {
+		return reader;
+	}
 	
 	@Override
 	protected String getSaveDirName() {

@@ -122,7 +122,7 @@ public class FileCache {
 	 * 
 	 * @return The save directory.
 	 */
-	protected File getSaveDir() {
+	public File getSaveDir() {
 		return saveDir;
 	}
 	
