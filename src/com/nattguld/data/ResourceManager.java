@@ -114,7 +114,6 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 				I reader = loadResource(f);
 			
 				if (Objects.isNull(reader)) {
-					reader.close();
 					continue;
 				}
 				R resource = instantiateResource(reader);
