@@ -82,4 +82,9 @@ public abstract class Config extends JsonResource {
 		return baseDirPath;
 	}
 
+	@Override
+	protected String getUUID() {
+		return null;
+	}
+
 }

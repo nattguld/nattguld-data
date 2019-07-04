@@ -35,6 +35,13 @@ public abstract class Resource<I extends IResourceReader, O extends IResourceWri
 	}
 	
 	/**
+	 * Retrieves the UUID.
+	 * 
+	 * @return The UUID.
+	 */
+	protected abstract String getUUID();
+	
+	/**
 	 * Writes the resource data.
 	 * 
 	 * @param writer The writer.

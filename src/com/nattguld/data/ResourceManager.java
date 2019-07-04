@@ -1,6 +1,7 @@
 package com.nattguld.data;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -98,6 +99,19 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	}
 	
 	/**
+	 * Retrieves a resource by it's UUID.
+	 * 
+	 * @param uuid The UUID.
+	 * 
+	 * @return The resource.
+	 */
+	public R getByUUID(String uuid) {
+		return getResources().stream()
+				.filter(r -> r.getUUID().equals(uuid))
+				.findFirst().orElse(null);
+	}
+	
+	/**
 	 * Loads the resources.
 	 * 
 	 * @return The resource manager.
@@ -179,6 +193,48 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	 */
 	public boolean isEmpty() {
 		return getResources().isEmpty();
+	}
+	
+	/**
+	 * Casts a list of UUID's to the resource instance.
+	 * 
+	 * @param uuids The UUID's.
+	 * 
+	 * @return The resources.
+	 */
+	public List<R> cast(List<String> uuids) {
+		List<R> resources = new ArrayList<>();
+		
+		for (R resource : getResources()) {
+			String uuid = resource.getUUID();
+			
+			if (Objects.isNull(uuid) || uuid.isEmpty()) {
+				continue;
+			}
+			resources.add(resource);
+		}
+		return resources;
+	}
+	
+	/**
+	 * Retrieves the UUID's of a list of given resources.
+	 * 
+	 * @param resources The resources.
+	 * 
+	 * @return The UUID's.
+	 */
+	public List<String> getUUIDsFromResources(List<R> resources) {
+		List<String> uuids = new ArrayList<>();
+		
+		for (R resource : resources) {
+			String uuid = resource.getUUID();
+			
+			if (Objects.isNull(uuid) || uuid.isEmpty()) {
+				continue;
+			}
+			uuids.add(uuid);
+		}
+		return uuids;
 	}
 	
 	/**
