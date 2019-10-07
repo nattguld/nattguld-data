@@ -58,6 +58,31 @@ public class ResourceIO {
 	}
 	
 	/**
+	 * Loads json content.
+	 * 
+	 * @param json The json.
+	 * 
+	 * @return The json reader.
+	 */
+	public static JsonReader loadJsonObject(String json) {
+    	try {
+    		JsonParser parser = new JsonParser();
+    		Gson gson = new GsonBuilder().create();
+    		JsonObject jsonObject = (JsonObject)parser.parse(json);
+    		
+    		if (Objects.isNull(jsonObject)) {
+    			System.err.println("Failed to parse json: " + json);
+    			return null;
+    		}
+    		return new JsonReader(gson, jsonObject, null);
+    		
+    	} catch (Exception ex) {
+    		ex.printStackTrace();
+    	}
+    	return null;
+	}
+	
+	/**
 	 * Loads a binary resource.
 	 * 
 	 * @param saveFile The save file.

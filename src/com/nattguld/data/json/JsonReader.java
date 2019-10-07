@@ -282,7 +282,7 @@ public class JsonReader implements IResourceReader {
     
     /**
      * Retrieves a collection.
-
+	 *
      * @param key The key.
      * 
      * @param elementType The element type.

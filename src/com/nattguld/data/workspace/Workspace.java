@@ -26,7 +26,7 @@ public class Workspace implements AutoCloseable {
 	 * @param dir The directory.
 	 */
 	public Workspace() {
-		this("");
+		this("workspace");
 	}
 	
 	/**

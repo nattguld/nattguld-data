@@ -76,6 +76,17 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	}
 	
 	/**
+	 * Removes given resources.
+	 * 
+	 * @param resources The resources to remove.
+	 */
+	public void remove(List<R> resources) {
+		for (R resource : resources) {
+			remove(resource);
+		}
+	}
+	
+	/**
 	 * Removes a resource.
 	 * 
 	 * @param resource The resource to remove.
@@ -117,7 +128,7 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	 * @return The resource manager.
 	 */
 	public ResourceManager<R, I, O> load() {
-		File dir = new File(Config.getBaseDirPath() + File.separator + getStorageDirName() + File.separator);
+		File dir = new File(getStorageDirPath());
 		
 		if (!dir.exists()) {
 			dir.mkdirs();
@@ -187,6 +198,15 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 	protected abstract String getStorageDirName();
 	
 	/**
+	 * Retrieves the storage dir path.
+	 * 
+	 * @return The storage dir path.
+	 */
+	public final String getStorageDirPath() {
+		return Config.getBaseDirPath() + File.separator + getStorageDirName() + File.separator;
+	}
+	
+	/**
 	 * Retrieves whether the resource manager is empty or not.
 	 * 
 	 * @return The result.
@@ -208,7 +228,7 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 		for (R resource : getResources()) {
 			String uuid = resource.getUUID();
 			
-			if (Objects.isNull(uuid) || uuid.isEmpty()) {
+			if (Objects.isNull(uuid) || uuid.isEmpty() || !uuids.contains(uuid)) {
 				continue;
 			}
 			resources.add(resource);

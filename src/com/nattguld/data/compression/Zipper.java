@@ -26,7 +26,7 @@ public class Zipper {
 	 * 
 	 * @param outputDir The output directory.
 	 */
-    public void unzip(File zipFile, File outputDir) {
+    public static void unzip(File zipFile, File outputDir) {
         byte[] buffer = new byte[1024];
        	
         try {
