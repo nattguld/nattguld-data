@@ -142,8 +142,10 @@ public abstract class ResourceManager<R extends Resource<I, O>, I extends IResou
 					continue;
 				}
 				R resource = instantiateResource(reader);
-				reader.close();
-			
+				
+				if (reader instanceof AutoCloseable) {
+					((AutoCloseable)reader).close();
+				}
 				if (Objects.isNull(resource)) {
 					continue;
 				}

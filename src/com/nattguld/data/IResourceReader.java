@@ -6,6 +6,6 @@ package com.nattguld.data;
  *
  */
 
-public interface IResourceReader extends AutoCloseable {
+public interface IResourceReader {
 
 }

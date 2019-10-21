@@ -51,12 +51,6 @@ public class JsonReader implements IResourceReader {
     	this.f = f;
     }
     
-	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-    
     /**
      * Retrieves a string value.
      * 

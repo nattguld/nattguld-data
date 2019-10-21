@@ -14,7 +14,7 @@ import com.nattguld.data.IResourceReader;
  *
  */
 
-public class BinaryReader implements IResourceReader {
+public class BinaryReader implements IResourceReader, AutoCloseable {
 	
 	/**
 	 * The data input stream.

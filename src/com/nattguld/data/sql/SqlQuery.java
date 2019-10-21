@@ -51,13 +51,17 @@ public abstract class SqlQuery<T> {
 	 * @return The result.
 	 */
 	public T executeOperation() {
-		try (Connection conn = SqlManager.getConnection(getDatabaseName())) {
-			return executeQuery(conn, tableName);
+		try {
+			Connection conn = SqlManager.getConnection(getDatabaseName());
+			
+			T result = executeQuery(conn, tableName);
+			
+			SqlManager.releaseConnection(conn);
+			
+			return result;
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			SqlManager.release();
 		}
 		return null;
 	}

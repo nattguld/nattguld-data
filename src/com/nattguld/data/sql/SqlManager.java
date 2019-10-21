@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import com.nattguld.data.sql.pooling.DefaultConnectionPool;
 
 /**
  * 
@@ -16,16 +14,6 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 
 public class SqlManager {
-	
-	/**
-	 * The thread lock object.
-	 */
-	private static final Object LOCK = new Object();
-	
-	/**
-	 * Whether the database is ready for new connections or not.
-	 */
-	private static final AtomicBoolean DB_READY = new AtomicBoolean(true);
 	
 	/**
 	 * The host.
@@ -43,9 +31,9 @@ public class SqlManager {
 	private static boolean connected;
 	
 	/**
-	 * The pooling data source.
+	 * The connection pool.
 	 */
-    private static HikariDataSource dataSource;
+	private static DefaultConnectionPool connectionPool;
 
 	
 	/**
@@ -84,63 +72,56 @@ public class SqlManager {
 			connected = false;
 			return null;
 		}
-		synchronized (LOCK){
-		    while (!DB_READY.get()){
-		    	try {
-					LOCK.wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-		    }
+		if (Objects.isNull(connectionPool)) {
+			connectionPool = new DefaultConnectionPool("jdbc:mysql://" + HOST + ":" + PORT + "/" + databaseName + "?useSSL=false"
+					, DBConfig.getConfig().getUsername(), DBConfig.getConfig().getPassword(), 25);
 		}
-		DB_READY.set(false);
-		
-		if (Objects.isNull(dataSource)) {
-			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl("jdbc:mysql://" + HOST + ":" + PORT + "/" + databaseName + "?useSSL=false");
-	        config.setUsername(DBConfig.getConfig().getUsername());
-	        config.setPassword(DBConfig.getConfig().getPassword());
-	        config.addDataSourceProperty("cachePrepStmts", "true");
-	        config.addDataSourceProperty("prepStmtCacheSize", "250");
-	        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-	        config.setConnectionTimeout(5000);
-	        config.setMaximumPoolSize(50);
-
-	        dataSource = new HikariDataSource(config);
+		try {
+			Connection conn = connectionPool.getConnection();
+			
+			if (Objects.isNull(conn)) {
+				System.err.println("Failed to connect to database " + databaseName + ", NULLED connection");
+				connected = false;
+				return null;
+			}
+			return conn;
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		Connection conn = dataSource.getConnection();
-		
-		if (Objects.isNull(conn)) {
-			System.err.println("Failed to connect to database " + databaseName + ", NULLED connection");
-			connected = false;
-			release();
-			return null;
-		}
-		return conn;
+		return null;
 	}
 	
 	/**
-	 * Releases the database lock.
+	 * Restarts the sql manager.
 	 */
-	public static void release() {
-		synchronized(LOCK){
-			DB_READY.set(true);
-			LOCK.notifyAll();
+	public static void restart() {
+		if (Objects.nonNull(connectionPool)) {
+			try {
+				connectionPool.shutdown();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	/**
-	 * Disposes the SQL manager.
+	 * Releases a connection.
 	 * 
-	 * @throws SQLException 
+	 * @param conn The connection.
 	 */
-	public static void dispose() throws SQLException {
-		LOCK.notifyAll();
-		
-		if (Objects.nonNull(dataSource)) {
-			dataSource.close();
-		}
-		DB_READY.set(true);
+	public static void releaseConnection(Connection conn) {
+		connectionPool.releaseConnection(conn);
+	}
+	
+	/**
+	 * Retrieves the current connection count.
+	 * 
+	 * @return The connection count.
+	 */
+	public static int getConnectionCount() {
+		return Objects.isNull(connectionPool) ? 0 : connectionPool.getPoolSize();
 	}
 	
 	/**
