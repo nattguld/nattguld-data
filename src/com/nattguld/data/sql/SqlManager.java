@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import com.nattguld.data.sql.pooling.DefaultConnectionPool;
+import com.nattguld.data.sql.pooling.SqlConnectionPool;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class SqlManager {
 	/**
 	 * The connection pool.
 	 */
-	private static DefaultConnectionPool connectionPool;
+	private static SqlConnectionPool connectionPool;
 
 	
 	/**
@@ -73,7 +73,7 @@ public class SqlManager {
 			return null;
 		}
 		if (Objects.isNull(connectionPool)) {
-			connectionPool = new DefaultConnectionPool("jdbc:mysql://" + HOST + ":" + PORT + "/" + databaseName + "?useSSL=false"
+			connectionPool = new SqlConnectionPool("jdbc:mysql://" + HOST + ":" + PORT + "/" + databaseName + "?useSSL=false"
 					, DBConfig.getConfig().getUsername(), DBConfig.getConfig().getPassword(), 25);
 		}
 		try {

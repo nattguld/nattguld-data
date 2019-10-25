@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  */
 
-public class DefaultConnectionPool {
+public class SqlConnectionPool {
 	
 	/**
 	 * The database url.
@@ -57,7 +57,7 @@ public class DefaultConnectionPool {
 	 * 
 	 * @param maxPoolSize The maximum pool size.
 	 */
-	public DefaultConnectionPool(String url, String username, String password, int maxPoolSize) {
+	public SqlConnectionPool(String url, String username, String password, int maxPoolSize) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
@@ -122,7 +122,7 @@ public class DefaultConnectionPool {
 	 * 
 	 * @return The pool.
 	 */
-	public DefaultConnectionPool releaseConnection(Connection connection) {
+	public SqlConnectionPool releaseConnection(Connection connection) {
 		usedConnections.remove(connection);
         connections.add(connection);
 		return this;
@@ -144,7 +144,7 @@ public class DefaultConnectionPool {
 	 * 
 	 * @throws SQLException 
 	 */
-	public DefaultConnectionPool shutdown() throws SQLException {
+	public SqlConnectionPool shutdown() throws SQLException {
 		for (Connection conn : usedConnections) {
 			conn.close();
 		}
