@@ -57,12 +57,11 @@ public class FileCache {
 	 * @return The cached file.
 	 */
 	private File add(File f) {
-		remove(f);
-
 		File cached = new File(getSaveDir().getAbsolutePath() + File.separator + f.getName());
 		
 		try {
 			Files.copy(f.toPath(), cached.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -76,8 +75,16 @@ public class FileCache {
 	 * 
 	 * @return The cached file.
 	 */
-	public File getCached(String fileName) {
-		return getCached(new File(getSaveDir().getAbsolutePath() + File.separator + fileName));
+	public File getCachedByFileName(String fileName) {
+		if (Objects.isNull(fileName) || fileName.isEmpty()) {
+			return null;
+		}
+		File cached = new File(getSaveDir().getAbsolutePath() + File.separator + fileName);
+		
+		if (!cached.exists()) {
+			return null;
+		}
+		return cached;
 	}
 	
 	/**
@@ -88,7 +95,7 @@ public class FileCache {
 	 * @return The cached file.
 	 */
 	public File getCached(File f) {
-		if (Objects.isNull(f) || !f.exists()) {
+		if (Objects.isNull(f)) {
 			return null;
 		}
 		for (File o : getFiles()) {
