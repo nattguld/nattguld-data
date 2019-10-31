@@ -1,7 +1,9 @@
 package com.nattguld.data.json;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 import com.nattguld.data.Resource;
 
@@ -41,10 +43,15 @@ public abstract class JsonResource extends Resource<JsonReader, JsonWriter> {
 		
 		try {
 			write(writer);
-		
+			
+			try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getSavePath()), "UTF-8"))) {
+				bw.write(writer.getGson().toJson(writer.getObject()));
+			}
+			/*
 			try (FileWriter fileWriter = new FileWriter(getSavePath())) {
 				fileWriter.write(writer.getGson().toJson(writer.getObject()));
 			}
+			*/
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

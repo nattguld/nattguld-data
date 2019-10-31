@@ -1,10 +1,11 @@
 package com.nattguld.data;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.Objects;
 
 import com.google.gson.Gson;
@@ -40,9 +41,13 @@ public class ResourceIO {
     		Gson gson = new GsonBuilder().create();
     		JsonObject jsonObject = null;
     		
+    		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(saveFile), "UTF-8"))) {
+    			jsonObject = (JsonObject) parser.parse(br);
+    		}
+    		/*
     		try (FileReader fileReader = new FileReader(saveFile)) {
     			jsonObject = (JsonObject) parser.parse(fileReader);
-    		}
+    		}*/
     		if (Objects.isNull(jsonObject)) {
     			System.err.println("Failed to parse json resource: " + saveFile.getAbsolutePath());
     			return null;
