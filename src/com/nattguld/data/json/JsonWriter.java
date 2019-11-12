@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.nattguld.data.IResourceWriter;
+import com.nattguld.data.json.util.AnnotationExclusionStrategy;
 
 /**
  * 
@@ -28,7 +29,8 @@ public class JsonWriter implements IResourceWriter {
      * Creates a new json writer.
      */
     public JsonWriter() {
-    	this.gson = new GsonBuilder().setPrettyPrinting().create();
+    	this.gson = new GsonBuilder().setPrettyPrinting()
+    			.setExclusionStrategies(new AnnotationExclusionStrategy()).create();
     	this.object = new JsonObject();
     }
     

@@ -1,6 +1,7 @@
 package com.nattguld.data.json;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Deque;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.nattguld.data.IResourceReader;
 
@@ -26,9 +29,9 @@ public class JsonReader implements IResourceReader {
     private final Gson gson;
     
     /**
-     * The json object.
+     * The json element.
      */
-    private final JsonObject object;
+    private final JsonElement jsonEl;
     
     /**
      * The loaded file.
@@ -41,13 +44,13 @@ public class JsonReader implements IResourceReader {
      * 
      * @param gson The gson reader.
      * 
-     * @param object The json object.
+     * @param jsonEl The json element.
      * 
      * @param f The loaded file.
      */
-    public JsonReader(Gson gson, JsonObject object, File f) {
+    public JsonReader(Gson gson, JsonElement jsonEl, File f) {
     	this.gson = gson;
-    	this.object = object;
+    	this.jsonEl = jsonEl;
     	this.f = f;
     }
     
@@ -59,7 +62,15 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public String getAsString(String key) {
-    	return object.get(key).getAsString();
+    	String value = getObject().get(key).getAsString();
+    	
+    	try {
+			return new String(value.getBytes(), "UTF-8");
+			
+		} catch (UnsupportedEncodingException ex) {
+			ex.printStackTrace();
+			return value;
+		}
     }
     
     /**
@@ -86,7 +97,7 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public int getAsInt(String key) {
-    	return object.get(key).getAsInt();
+    	return getObject().get(key).getAsInt();
     }
     
     /**
@@ -113,7 +124,7 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public float getAsFloat(String key) {
-    	return object.get(key).getAsFloat();
+    	return getObject().get(key).getAsFloat();
     }
     
     /**
@@ -140,7 +151,7 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public double getAsDouble(String key) {
-    	return object.get(key).getAsDouble();
+    	return getObject().get(key).getAsDouble();
     }
     
     /**
@@ -167,7 +178,7 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public boolean getAsBoolean(String key) {
-    	return object.get(key).getAsBoolean();
+    	return getObject().get(key).getAsBoolean();
     }
     
     /**
@@ -194,7 +205,7 @@ public class JsonReader implements IResourceReader {
      * @return The value.
      */
     public long getAsLong(String key) {
-    	return object.get(key).getAsLong();
+    	return getObject().get(key).getAsLong();
     }
     
     /**
@@ -223,7 +234,7 @@ public class JsonReader implements IResourceReader {
      * @return The object.
      */
     public Object getAsObject(String key, Class<?> c) {
-    	return gson.fromJson(object.get(key), c);
+    	return gson.fromJson(getObject().get(key), c);
     }
     
     /**
@@ -321,6 +332,28 @@ public class JsonReader implements IResourceReader {
     	}
     	return map;
     }
+	
+	/**
+	 * Retrieves a nested json array.
+	 * 
+	 * @param key The key.
+	 * 
+	 * @return The array.
+	 */
+	public JsonArray getAsJsonArray(String key) {
+		return getObject().get(key).getAsJsonArray();
+	}
+	
+	/**
+	 * Retrieves a nested json object.
+	 * 
+	 * @param key The key.
+	 * 
+	 * @return The object.
+	 */
+	public JsonObject getAsJsonObject(String key) {
+		return getObject().get(key).getAsJsonObject();
+	}
     
     /**
      * Retrieves whether a key is available or not.
@@ -348,7 +381,16 @@ public class JsonReader implements IResourceReader {
      * @return The json object.
      */
     public JsonObject getObject() {
-    	return object;
+    	return (JsonObject)jsonEl;
+    }
+    
+    /**
+     * Retrieves the json array.
+     * 
+     * @return The json array.
+     */
+    public JsonArray getArray() {
+    	return (JsonArray)jsonEl;
     }
     
     /**

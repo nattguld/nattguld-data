@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.nattguld.data.binary.BinaryReader;
 import com.nattguld.data.json.JsonReader;
@@ -39,20 +39,20 @@ public class ResourceIO {
     	try {
     		JsonParser parser = new JsonParser();
     		Gson gson = new GsonBuilder().create();
-    		JsonObject jsonObject = null;
+    		JsonElement jsonEl = null;
     		
     		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(saveFile), "UTF-8"))) {
-    			jsonObject = (JsonObject) parser.parse(br);
+    			jsonEl = parser.parse(br);
     		}
     		/*
     		try (FileReader fileReader = new FileReader(saveFile)) {
     			jsonObject = (JsonObject) parser.parse(fileReader);
     		}*/
-    		if (Objects.isNull(jsonObject)) {
+    		if (Objects.isNull(jsonEl)) {
     			System.err.println("Failed to parse json resource: " + saveFile.getAbsolutePath());
     			return null;
     		}
-    		return new JsonReader(gson, jsonObject, saveFile);
+    		return new JsonReader(gson, jsonEl, saveFile);
     		
     	} catch (FileNotFoundException ex) {
     		ex.printStackTrace();
@@ -69,17 +69,17 @@ public class ResourceIO {
 	 * 
 	 * @return The json reader.
 	 */
-	public static JsonReader loadJsonObject(String json) {
+	public static JsonReader loadJsonFromString(String json) {
     	try {
     		JsonParser parser = new JsonParser();
     		Gson gson = new GsonBuilder().create();
-    		JsonObject jsonObject = (JsonObject)parser.parse(json);
+    		JsonElement jsonEl = parser.parse(json);
     		
-    		if (Objects.isNull(jsonObject)) {
+    		if (Objects.isNull(jsonEl)) {
     			System.err.println("Failed to parse json: " + json);
     			return null;
     		}
-    		return new JsonReader(gson, jsonObject, null);
+    		return new JsonReader(gson, jsonEl, null);
     		
     	} catch (Exception ex) {
     		ex.printStackTrace();
