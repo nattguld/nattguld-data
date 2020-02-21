@@ -341,7 +341,7 @@ public class JsonReader implements IResourceReader {
 	 * @return The array.
 	 */
 	public JsonArray getAsJsonArray(String key) {
-		return getObject().get(key).getAsJsonArray();
+		return getAsJsonElement(key).getAsJsonArray();
 	}
 	
 	/**
@@ -352,7 +352,18 @@ public class JsonReader implements IResourceReader {
 	 * @return The object.
 	 */
 	public JsonObject getAsJsonObject(String key) {
-		return getObject().get(key).getAsJsonObject();
+		return getAsJsonElement(key).getAsJsonObject();
+	}
+	
+	/**
+	 * Retrieves a json element by it's given key.
+	 * 
+	 * @param key The key.
+	 * 
+	 * @return The json element.
+	 */
+	public JsonElement getAsJsonElement(String key) {
+		return getObject().get(key);
 	}
     
     /**
@@ -391,6 +402,15 @@ public class JsonReader implements IResourceReader {
      */
     public JsonArray getArray() {
     	return (JsonArray)jsonEl;
+    }
+    
+    /**
+     * Retrieves the json element.
+     * 
+     * @return The element.
+     */
+    public JsonElement getElement() {
+    	return jsonEl;
     }
     
     /**
